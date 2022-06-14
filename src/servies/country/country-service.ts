@@ -5,10 +5,11 @@ import { Http } from '../network/http';
 export class CountryService {
   private url;
   private cachePath;
-  private countryData = {};
+  private countryData: object;
   constructor(private http: Http) {
     this.url = 'https://restcountries.com/v2/alpha';
     this.cachePath = path.resolve(__dirname, '../../../data/Countries.json');
+    this.countryData = {};
     this.createCachFileIfNotExists();
     this.populateCache();
   }
@@ -43,7 +44,7 @@ export class CountryService {
     // looking into the cache first
     try {
       if (options.fromCache && this.countryData[countryCode]) {
-        return countryCode;
+        return this.countryData[countryCode];
       }
 
       // Fetch country data from API call
@@ -60,6 +61,31 @@ export class CountryService {
       console.log(error);
       return {};
     }
+  }
+
+  async getFullName(countryCode) {
+    const { name } = await this.getDataByCode(countryCode);
+    return name;
+  }
+
+  async getCurrencies(countryCode) {
+    const { currencies } = await this.getDataByCode(countryCode);
+    return currencies.map((currency) => currency.code);
+  }
+
+  async getLanguages(countryCode) {
+    const { languages } = await this.getDataByCode(countryCode);
+    return languages.map((language) => language.name);
+  }
+
+  async getTimeZones(countryCode) {
+    const { timezones } = await this.getDataByCode(countryCode);
+    return timezones;
+  }
+
+  async getRegion(countryCode) {
+    const { region } = await this.getDataByCode(countryCode);
+    return region;
   }
 }
 
