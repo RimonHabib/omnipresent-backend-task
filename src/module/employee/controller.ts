@@ -14,12 +14,12 @@ export default class EmployeeController implements Controller {
     this.router.get('/', this.getAll);
   }
 
-  protected getAll(request: Request, response: Response, next: NextFunction) {
+  protected async getAll(request: Request, response: Response, next: NextFunction) {
     const employeeService = new EmployeeService();
     try {
-      employeeService.findAll().then((employeeList) => {
-        response.status(200).json(employeeList);
-      });
+      const employeeList = await employeeService.findAll();
+
+      response.status(200).json(employeeList);
     } catch (error) {
       console.log(error);
       response.status(500).json({

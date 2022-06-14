@@ -1,5 +1,5 @@
 import supertest from 'supertest';
-import { app, server } from '../server';
+import { app } from '../server';
 
 describe('Employee Endpoint', () => {
   it('Should respond with employee list', async () => {
@@ -13,11 +13,6 @@ describe('Employee Endpoint', () => {
       expect(employee.country.currency).not.toBe(null);
       expect(employee.country.languages).not.toBe(null);
     });
-  });
-
-  afterAll((done) => {
-    server.close();
-    done();
   });
 });
 

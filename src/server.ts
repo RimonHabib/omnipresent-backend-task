@@ -13,9 +13,11 @@ const app = new App([
   new EmployeeController()
 ]);
 
-const server = app.listen(port).on('listening', () => {
-  console.log(`App is running on http://localhost:${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  const server = app.listen(port).on('listening', () => {
+    console.log(`App is running on http://localhost:${port}`);
+  });
+}
 
-export { app, server };
+export { app };
 

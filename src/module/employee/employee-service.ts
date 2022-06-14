@@ -7,7 +7,8 @@ export type Employee = {
   dateOfBirth: string;
   jobTitle: string;
   company: string;
-  country: {
+  country: string;
+  countryData: {
     name: string;
     currency: string;
     languages: string[];
@@ -35,7 +36,9 @@ export default class EmployeeService {
       const employees = [];
       for await (const employee of employeesData) {
         const { country } = employee;
+        // Clone employee object
         const employeeData = { ...employee };
+
         const countryData = {
           name: await countryService.getFullName(country),
           currency: await countryService.getCurrency(country),
@@ -43,8 +46,8 @@ export default class EmployeeService {
           timezones: await countryService.getTimeZones(country),
         };
 
-        // Replace country code with country data;
-        employeeData.country = countryData;
+        // Append country data;
+        employeeData.countryData = countryData;
 
         // Generate identifier
         const region = await countryService.getRegion(country);
@@ -60,7 +63,9 @@ export default class EmployeeService {
   }
 
   generateIdentifier(employee: Employee) {
-    return `${employee.firstName}${employee.lastName}${employee.dateOfBirth}`;
+    return `${employee.firstName}${employee.lastName}${employee.dateOfBirth}`
+      .replace(/\//g, '')
+      .toLocaleLowerCase();
   }
 }
 
