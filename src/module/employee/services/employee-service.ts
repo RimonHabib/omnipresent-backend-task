@@ -9,7 +9,7 @@ export type Employee = {
   company: string;
   country: {
     name: string;
-    currencies: string[];
+    currency: string;
     languages: string[];
     timezones: string[];
   };
@@ -38,7 +38,7 @@ export default class EmployeeService {
         const employeeData = { ...employee };
         const countryData = {
           name: await countryService.getFullName(country),
-          currencies: await countryService.getCurrencies(country),
+          currency: await countryService.getCurrency(country),
           languages: await countryService.getLanguages(country),
           timezones: await countryService.getTimeZones(country),
         };

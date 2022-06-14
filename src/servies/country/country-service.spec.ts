@@ -7,11 +7,11 @@ describe('Country Service', () => {
     const getCountrySpy = jest.spyOn(countryService, 'getDataByCode');
     const country = await countryService.getDataByCode('BD');
     expect(getCountrySpy).toBeCalled();
-    await expect(countryService.getFullName('BD')).toBe('Bangladesh');
-    await expect(countryService.getTimeZones('BD')).toEqual(['UTC+06:00']);
-    await expect(countryService.getRegion('BD')).toBe('Asia');
-    await expect(countryService.getCurrencies('BD')).toEqual(['BDT']);
-    await expect(countryService.getLanguages('BD')).toEqual(['Bengali']);
+    expect(await countryService.getFullName('BD')).toBe('Bangladesh');
+    expect(await countryService.getTimeZones('BD')).toEqual(['UTC+06:00']);
+    expect(await countryService.getRegion('BD')).toBe('Asia');
+    expect(await countryService.getCurrency('BD')).toBe('BDT');
+    expect(await countryService.getLanguages('BD')).toEqual(['Bengali']);
   });
 });
 

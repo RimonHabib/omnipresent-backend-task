@@ -60,7 +60,7 @@ export class CountryService {
         return country;
       }
     } catch (error) {
-      console.log(this.url + '/' + countryCode);
+      console.log(error);
       return {};
     }
   }
@@ -70,9 +70,10 @@ export class CountryService {
     return name;
   }
 
-  async getCurrencies(countryCode) {
+  async getCurrency(countryCode) {
     const { currencies } = await this.getDataByCode(countryCode);
-    return currencies.map((currency) => currency.code);
+    const [currency] = currencies;
+    return currency.code;
   }
 
   async getLanguages(countryCode) {
