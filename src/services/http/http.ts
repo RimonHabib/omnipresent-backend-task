@@ -1,6 +1,6 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import HttpException from '../../exceptions/httpException';
-import Network from './network';
+import Network from '../../interfaces/network';
 
 export class Http implements Network {
   private url: string;

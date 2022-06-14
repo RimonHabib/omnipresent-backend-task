@@ -1,4 +1,4 @@
-import { Http } from '../network/http';
+import { Http } from '../http/http';
 import { CountryService } from './country-service';
 
 describe('Country Service', () => {

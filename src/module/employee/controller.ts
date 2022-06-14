@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import Controller from '../../interfaces/controller';
-import EmployeeService from './services/employee-service';
+import EmployeeService from './employee-service';
 
 export default class EmployeeController implements Controller {
   path: string;

@@ -1,6 +1,6 @@
 import { writeFileSync, existsSync, promises as fs } from 'fs';
 import path from 'path';
-import { Http } from '../network/http';
+import { Http } from '../http/http';
 
 export type region = 'Asia' | 'Europe' | 'Africa' | 'Oceania' | 'Americas';
 

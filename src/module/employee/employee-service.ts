@@ -1,5 +1,5 @@
-import { Http } from '../../..//servies/network/http';
-import { region, CountryService } from '../../../servies/country/country-service';
+import { Http } from '../../services/http/http';
+import { region, CountryService } from '../../services/country/country-service';
 
 export type Employee = {
   firstName: string;
@@ -28,7 +28,7 @@ export default class EmployeeService {
 
     try {
       // fetching employees from json file
-      const employeesData = require('../../../../data/employee.json');
+      const employeesData = require('../../../data/Employee.json');
 
       // fetcing country data
       const countryService = new CountryService(new Http());

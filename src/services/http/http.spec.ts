@@ -1,4 +1,3 @@
-import HttpException from '../../exceptions/httpException';
 import { Http } from './http';
 
 describe('Http adapter', () => {
