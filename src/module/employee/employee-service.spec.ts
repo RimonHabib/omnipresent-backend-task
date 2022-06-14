@@ -7,8 +7,8 @@ describe('Employee Service', () => {
   let employeeService: EmployeeService;
   let countryService: CountryService;
   beforeEach(() => {
-    employeeService = new EmployeeService();
     countryService = new CountryService(new Http());
+    employeeService = new EmployeeService(countryService);
   });
 
   it('Should return employee list identifier for Asia & Europe region', async () => {

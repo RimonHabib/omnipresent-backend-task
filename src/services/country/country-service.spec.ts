@@ -1,8 +1,9 @@
+import { existsSync } from 'fs';
 import { Http } from '../http/http';
 import { CountryService } from './country-service';
 
 describe('Country Service', () => {
-  it('Should pass', async () => {
+  it('Should fetch country data', async () => {
     const countryService = new CountryService(new Http());
     const getCountrySpy = jest.spyOn(countryService, 'getDataByCode');
     const country = await countryService.getDataByCode('BD');

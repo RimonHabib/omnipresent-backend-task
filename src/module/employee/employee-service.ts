@@ -18,7 +18,10 @@ export type Employee = {
 };
 
 export default class EmployeeService {
-  async findAll(option?: { uniqueIdRegion: region[] }) {
+  // inject dependencies
+  constructor(private readonly countryService: CountryService) {}
+
+  async findAll(option?: { uniqueIdRegion: region[] }): Promise<Employee[]> {
     // default option, uniqueIdRegion = ['Asia', 'Europe']
     option = {
       ...{
@@ -27,39 +30,36 @@ export default class EmployeeService {
       ...option,
     };
 
-    try {
-      // fetching employees from json file
-      const employeesData = require('../../../data/Employee.json');
+    // fetching employees from json file
+    const employeesData = require('../../../data/Employee.json');
 
-      // fetcing country data
-      const countryService = new CountryService(new Http());
-      const employees = [];
-      for await (const employee of employeesData) {
-        const { country } = employee;
-        // Clone employee object
-        const employeeData = { ...employee };
+    // fetcing country data
+    const employees = [];
 
-        const countryData = {
-          name: await countryService.getFullName(country),
-          currency: await countryService.getCurrency(country),
-          languages: await countryService.getLanguages(country),
-          timezones: await countryService.getTimeZones(country),
-        };
+    for (const employee of employeesData) {
+      const { country } = employee;
+      // Clone employee object
+      const employeeData = { ...employee };
+      // fetch country data from country service
+      const countryData = {
+        name: await this.countryService.getFullName(country),
+        currency: await this.countryService.getCurrency(country),
+        languages: await this.countryService.getLanguages(country),
+        timezones: await this.countryService.getTimeZones(country),
+      };
 
-        // Append country data;
-        employeeData.countryData = countryData;
+      // Append country data;
+      employeeData.countryData = countryData;
 
-        // Generate identifier
-        const region = await countryService.getRegion(country);
-        if (option.uniqueIdRegion.includes(region)) {
-          employeeData.identifier = this.generateIdentifier(employeeData);
-        }
-        employees.push(employeeData);
+      // Generate identifier
+      const region = await this.countryService.getRegion(country);
+      if (option.uniqueIdRegion.includes(region)) {
+        employeeData.identifier = this.generateIdentifier(employeeData);
       }
-      return employees;
-    } catch (error) {
-      console.log(error);
+
+      employees.push(employeeData);
     }
+    return employees;
   }
 
   generateIdentifier(employee: Employee) {
