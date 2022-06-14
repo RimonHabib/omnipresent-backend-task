@@ -2,6 +2,8 @@ import { writeFileSync, existsSync, promises as fs } from 'fs';
 import path from 'path';
 import { Http } from '../network/http';
 
+export type region = 'Asia' | 'Europe' | 'Africa' | 'Oceania' | 'Americas';
+
 export class CountryService {
   private url;
   private cachePath;
@@ -45,20 +47,20 @@ export class CountryService {
     try {
       if (options.fromCache && this.countryData[countryCode]) {
         return this.countryData[countryCode];
+      } else {
+        // Fetch country data from API call
+        this.http.setUrl(this.url + '/' + countryCode);
+        const country = await this.http.get();
+
+        // Regenerate cache and return
+        this.countryData[countryCode] = country;
+        await this.deleteCache();
+        await this.saveCache();
+
+        return country;
       }
-
-      // Fetch country data from API call
-      this.http.setUrl(this.url + '/' + countryCode);
-      const country = await this.http.get();
-
-      // Regenerate cache and return
-      this.countryData[countryCode] = country;
-      await this.deleteCache();
-      await this.saveCache();
-
-      return country;
     } catch (error) {
-      console.log(error);
+      console.log(this.url + '/' + countryCode);
       return {};
     }
   }
