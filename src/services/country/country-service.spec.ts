@@ -14,5 +14,14 @@ describe('Country Service', () => {
     expect(await countryService.getCurrency('BD')).toBe('BDT');
     expect(await countryService.getLanguages('BD')).toEqual(['Bengali']);
   });
+
+  it('Should return country data from API call (force clear cache)', async () => {
+    const http = new Http();
+    const countryService = new CountryService(http);
+    const httpGetSpy = jest.spyOn(http, 'get');
+    await countryService.getDataByCode('BD', { fromCache: false });
+    await countryService.getDataByCode('CA', { fromCache: false });
+    expect(httpGetSpy).toBeCalledTimes(2);
+  });
 });
 
