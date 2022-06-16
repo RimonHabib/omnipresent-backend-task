@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import { emit } from 'process';
 import App from './app';
 import HealthController from './healthz';
 import EmployeeController from './module/employee/controller';
@@ -14,7 +13,7 @@ const app = new App([
 ]);
 
 if (process.env.NODE_ENV !== 'test') {
-  const server = app.listen(port).on('listening', () => {
+  app.listen(port).on('listening', () => {
     console.log(`App is running on http://localhost:${port}`);
   });
 }
