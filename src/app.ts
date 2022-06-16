@@ -4,6 +4,7 @@ import xss from 'xss-clean';
 import cors from 'cors';
 import Controller from './interfaces/controller';
 import errorMiddleware from './middlewares/errorMiddleware';
+import HttpException from './exceptions/httpException';
 
 // Warp the app
 class App {
@@ -35,8 +36,8 @@ class App {
   }
 
   private exposeRootEndPoint() {
-    this.server.get('/', (request, response) => {
-      return response.status(418).send("I'm a teapot");
+    this.server.get('/', () => {
+      throw new HttpException(418, "I'm a teapot!");
     });
   }
 
