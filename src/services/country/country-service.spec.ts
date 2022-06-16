@@ -23,5 +23,13 @@ describe('Country Service', () => {
     await countryService.getDataByCode('CA', { fromCache: false });
     expect(httpGetSpy).toBeCalledTimes(2);
   });
+
+  it('Should return blank object', async () => {
+    const countryService = new CountryService(new Http());
+    const consoleSpy = jest.spyOn(console, 'log');
+    const data = await countryService.getDataByCode('INVALID_CODE');
+    expect(consoleSpy).toBeCalled();
+    expect(data).toEqual({});
+  });
 });
 
